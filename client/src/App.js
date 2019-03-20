@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.scss';
+import './styles/App.scss';
 
 
 class App extends Component {
@@ -11,11 +11,11 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    fetch('/api')
-    .then (res => res.json())
-    .then(test => this.setState ({test}, () => console.log('test frontend', test)));
-  }
+  // componentDidMount() {
+  //   fetch('/websocket')
+  //   .then (res => res.json())
+  //   .then(test => this.setState ({test}, () => console.log('test frontend', test)));
+  // }
 
   render() {
     return (
@@ -23,17 +23,13 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+            Edit <code>src/App.js</code> this.state.test and save to reload.
+          </p>  
         </header>
+        <textarea className="Document">
+          </textarea>
+        <section>
+        </section>
       </div>
     );
   }
