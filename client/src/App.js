@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './styles/App.scss';
-
+import socketIOClient from 'socket.io-client';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      test: []
+      endpoint: 'localhost:8080',
+      test: 'OK man'
     }
   }
 
-  // componentDidMount() {
-  //   fetch('/websocket')
-  //   .then (res => res.json())
-  //   .then(test => this.setState ({test}, () => console.log('test frontend', test)));
-  // }
+  componentDidMount() {
+     socketIOClient(this.state.endpoint);
+  }
 
   render() {
     return (
@@ -23,7 +22,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> this.state.test and save to reload.
+           {this.state.test}
           </p>  
         </header>
         <textarea className="Document">
