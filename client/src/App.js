@@ -1,35 +1,20 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './styles/App.scss';
-import socketIOClient from 'socket.io-client';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import WelcomeComponent from "./components/WelcomeComponent";
+import LoginComponent from "./components/LoginComponent";
+import RegisterComponent from "./components/RegisterComponent";
+import DocumentComponent from "./components/DocumentComponent";
+import "./styles/App.scss";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      endpoint: 'localhost:8080',
-      test: 'OK man'
-    }
-  }
-
-  componentDidMount() {
-     socketIOClient(this.state.endpoint);
-  }
-
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-           {this.state.test}
-          </p>  
-        </header>
-        <textarea className="Document">
-          </textarea>
-        <section>
-        </section>
-      </div>
+      <Router>
+        <Route exact path="/" component={DocumentComponent} />
+        <Route exact path="/register" component={RegisterComponent} />
+        <Route exact path="/login" component={LoginComponent} />
+        <Route exact path="/document" component={DocumentComponent} />
+      </Router>
     );
   }
 }
