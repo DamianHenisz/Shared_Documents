@@ -1,30 +1,35 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io'); 
+const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
 
 const io = socketIo(server);
 const router = express.Router();
+const connections = [];
 
-router.get('/', function (req, res, next) {
-    //res.sendFile(__dirname + '/client/public/index');
-    const test = [
-                {test: 'OK Connected backend'}
-             ];
-            res.json(test);
+let datadocument = ""; //Global variable for all users
+
+app.get("/", function(req, res, next) {
+  res.sendFile(__dirname + "/client/public/index.html");
 });
 
-io.on('connection', function (socket) {
- console.log('websocket connected');
- 
- socket.on('disconnect', function () {
-     console.log('user disconnected');
- })
-});
+io.on("connection", function(socket) {
+  socket.emit('get-document', datadocument);
+  connections.push(socket);
+  console.log("websocket connected ", socket.id);
 
-server.listen(8080, function () {
-    console.log('Listening on :8080 port');
-}
-)
+  socket.on("update-document", document => {
+    datadocument = document;
+    io.sockets.emit('get-document', datadocument);
+  })
+
+  socket.on("disconnect", function() {
+    connections.splice(connections.indexOf(socket), 1);
+    console.log("datadocument server", datadocument);
+  });
+});
+server.listen(8080, function() {
+  console.log("Listening on :8080 port");
+});
