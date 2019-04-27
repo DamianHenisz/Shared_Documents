@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
+const fs = require("fs");
 
 const app = express();
 const server = http.createServer(app);
@@ -16,20 +17,29 @@ app.get("/", function(req, res, next) {
 });
 
 io.on("connection", function(socket) {
-  socket.emit('get-document', datadocument);
+  socket.emit("get-document", datadocument);
   connections.push(socket);
   console.log("websocket connected ", socket.id);
 
   socket.on("update-document", document => {
     datadocument = document;
-    io.sockets.emit('get-document', datadocument);
-  })
+    io.sockets.emit("get-document", datadocument);
+  });
 
   socket.on("disconnect", function() {
     connections.splice(connections.indexOf(socket), 1);
     console.log("datadocument server", datadocument);
   });
 });
+
+fs.writeFile("test.txt", "bla", err => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  //file written successfully
+});
+
 server.listen(8080, function() {
   console.log("Listening on :8080 port");
 });
