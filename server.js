@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 const fs = require("fs");
+const mongoose = require("mongoose");
 
 const app = express();
 const server = http.createServer(app);
@@ -11,6 +12,12 @@ const router = express.Router();
 const connections = [];
 
 let datadocument = ""; //Global variable for all users
+
+//Connect to MongoDB
+mongoose
+  .connect("mongodb://localhost/shared_document", { useNewUrlParser: true })
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch(err => console.log(err));
 
 app.get("/", function(req, res, next) {
   res.sendFile(__dirname + "/client/public/index.html");
@@ -32,13 +39,13 @@ io.on("connection", function(socket) {
   });
 });
 
-fs.writeFile("test.txt", "bla", err => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  //file written successfully
-});
+// fs.writeFile("test.txt", "bla", err => {
+//   if (err) {
+//     console.error(err);
+//     return;
+//   }
+//   //file written successfully
+// });
 
 server.listen(8080, function() {
   console.log("Listening on :8080 port");
