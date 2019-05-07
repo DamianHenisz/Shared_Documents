@@ -4,24 +4,27 @@ const socketIo = require("socket.io");
 const fs = require("fs");
 const mongoose = require("mongoose");
 
+const users = require("./routes/api/users");
 const app = express();
 const server = http.createServer(app);
 
 const io = socketIo(server);
-const router = express.Router();
 const connections = [];
 
 let datadocument = ""; //Global variable for all users
 
 //Connect to MongoDB
 mongoose
-  .connect("mongodb://localhost/shared_document", { useNewUrlParser: true })
+  .connect("mongodb://localhost/sharedDocuments", { useNewUrlParser: true })
   .then(() => console.log("Connected to MongoDB..."))
   .catch(err => console.log(err));
 
 app.get("/", function(req, res, next) {
   res.sendFile(__dirname + "/client/public/index.html");
 });
+
+//Use Routes
+app.use("/api/users", users);
 
 io.on("connection", function(socket) {
   socket.emit("get-document", datadocument);
