@@ -44,7 +44,7 @@ router.post("/login", (req, res) => {
   const userName = req.body.userName;
   const password = req.body.password;
 
-  //Find User  in MongoDB
+  //Find User in MongoDB
   User.findOne({ userName }).then(user => {
     if (!user) {
       return res.status(404).json({ userName: "User not found" });
@@ -52,7 +52,16 @@ router.post("/login", (req, res) => {
 
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-        res.json({ msg: "Success" });
+        //Create Jwt payload
+        const payload = { id: user.id, userName: user.userName };
+
+        //Change KEYTEST to privateKey
+        jwt.sign(payload, "KEYTEST", { expiresIn: 3600 }, (err, token) => {
+          res.json({
+            succcess: true,
+            token: "Bearer " + token
+          });
+        });
       } else {
         return res.status(400).json({ password: "Password is incorect" });
       }
