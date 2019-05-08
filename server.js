@@ -14,9 +14,10 @@ const connections = [];
 
 let datadocument = ""; //Global variable for all users
 
-//
+//Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 //Connect to MongoDB
 mongoose
   .connect("mongodb://localhost:27017/sharedDocuments", { useNewUrlParser: true, useCreateIndex: true })
@@ -30,6 +31,7 @@ app.get("/", function(req, res, next) {
 //Use Routes
 app.use("/api/users", users);
 
+//Use socketIO
 io.on("connection", function(socket) {
   socket.emit("get-document", datadocument);
   connections.push(socket);
