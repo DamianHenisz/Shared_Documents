@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const User = require("../../models/User");
 
 //@route Get api/users/
@@ -12,12 +14,12 @@ router.get("/", (req, res) => res.json({ msg: "Users Works" }));
 //@desc Register user
 //@access Public
 router.post("/reqister", (req, res) => {
-  User.findOne({ login: req.body.login }).then(user => {
+  User.findOne({ userName: req.body.userName }).then(user => {
     if (user) {
-      return res.status(400).json({ login: "This login already exists" });
+      return res.status(400).json({ userName: "This userName already exists" });
     } else {
       const newUser = new User({
-        login: req.body.login,
+        userName: req.body.userName,
         password: req.body.password
       });
 
@@ -32,6 +34,29 @@ router.post("/reqister", (req, res) => {
         });
       });
     }
+  });
+});
+
+//@route Get api/users/login
+//@desc Login User / Returning JWT Token
+//@access Public
+router.post("/login", (req, res) => {
+  const userName = req.body.userName;
+  const password = req.body.password;
+
+  //Find User  in MongoDB
+  User.findOne({ userName }).then(user => {
+    if (!user) {
+      return res.status(404).json({ userName: "User not found" });
+    }
+
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        res.json({ msg: "Success" });
+      } else {
+        return res.status(400).json({ password: "Password is incorect" });
+      }
+    });
   });
 });
 
