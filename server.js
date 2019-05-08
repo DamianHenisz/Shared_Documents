@@ -3,6 +3,7 @@ const http = require("http");
 const socketIo = require("socket.io");
 const fs = require("fs");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 
 const users = require("./routes/api/users");
 const app = express();
@@ -13,9 +14,12 @@ const connections = [];
 
 let datadocument = ""; //Global variable for all users
 
+//
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 //Connect to MongoDB
 mongoose
-  .connect("mongodb://localhost/sharedDocuments", { useNewUrlParser: true })
+  .connect("mongodb://localhost:27017/sharedDocuments", { useNewUrlParser: true, useCreateIndex: true })
   .then(() => console.log("Connected to MongoDB..."))
   .catch(err => console.log(err));
 
