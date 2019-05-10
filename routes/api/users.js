@@ -10,7 +10,7 @@ const User = require("../../models/User");
 //@access Public
 router.get("/", (req, res) => res.json({ msg: "Users Works" }));
 
-//@route Get api/users/register
+//@route Post api/users/register
 //@desc Register user
 //@access Public
 router.post("/reqister", (req, res) => {
@@ -30,14 +30,14 @@ router.post("/reqister", (req, res) => {
           newUser
             .save()
             .then(user => res.json(user))
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.response.data));
         });
       });
     }
   });
 });
 
-//@route Get api/users/login
+//@route Post api/users/login
 //@desc Login User / Returning JWT Token
 //@access Public
 router.post("/login", (req, res) => {

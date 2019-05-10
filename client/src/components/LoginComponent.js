@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import axios from "axios";
 class LoginComponent extends Component {
   constructor() {
     super();
@@ -25,6 +25,11 @@ class LoginComponent extends Component {
       password: this.state.password
     };
     console.log(user);
+
+    axios
+      .post("/api/users/login", user)
+      .then(res => console(res.data))
+      .catch(err => console.log(err.response.data));
   }
 
   render() {
