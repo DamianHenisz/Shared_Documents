@@ -8,19 +8,19 @@ module.exports = function validateRegisterInput(data) {
   data.password = !isEmpty(data.password) ? data.password : "";
 
   if (!Validator.isLength(data.userName, { min: 2, max: 30 })) {
-    errors.userName = "userName must be between 2 and 30 characters";
+    errors.userName = "Nazwa użytkownika musi zawierać od 2 do 30 znaków";
   }
 
   if (Validator.isEmpty(data.userName)) {
-    errors.userName = "userName field is required";
+    errors.userName = "Podaj nazwę użytkownika";
   }
 
   if (Validator.isEmpty(data.password)) {
-    errors.password = "Password field is required";
+    errors.password = "Podaj hasło";
   }
 
   if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
-    errors.password = "Password must be at least 6 characters";
+    errors.password = "Hasło musi mieć co najmniej 6 znaków";
   }
   return {
     errors,

@@ -27,7 +27,7 @@ router.post("/register", (req, res) => {
 
   User.findOne({ userName: req.body.userName }).then(user => {
     if (user) {
-      errors.userName = "This userName already exists";
+      errors.userName = "Podany użytkownik już istnieje";
       return res.status(400).json(errors);
     } else {
       const newUser = new User({
@@ -65,7 +65,7 @@ router.post("/login", (req, res) => {
   //Find User in MongoDB
   User.findOne({ userName }).then(user => {
     if (!user) {
-      errors.userName = "User not found";
+      errors.userName = "Nie znaleziono takiego użytkownika";
       return res.status(404).json(errors);
     }
 
@@ -81,7 +81,7 @@ router.post("/login", (req, res) => {
           });
         });
       } else {
-        errors.password = "Password is incorect";
+        errors.password = "Podane hasło jest nie poprawne";
         return res.status(400).json(errors);
       }
     });
