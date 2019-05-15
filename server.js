@@ -33,6 +33,7 @@ app.get("/", function(req, res, next) {
 app.use(passport.initialize());
 
 //Passport Config
+//Ask
 require("./config/passport")(passport);
 
 //Use Routes

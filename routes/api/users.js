@@ -9,6 +9,7 @@ const key = require("../../config/key");
 
 const validateRegisterInput = require("../../validation/register");
 const validaeLoginInput = require("../../validation/login");
+
 //@route Get api/users/
 //@desc Test users route
 //@access Public
