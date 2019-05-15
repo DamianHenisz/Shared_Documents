@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
+import classnames from "classnames";
+
 class LoginComponent extends Component {
   constructor() {
     super();
     this.state = {
       userName: "",
-      password: ""
+      password: "",
+      errors: {}
     };
 
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
@@ -28,18 +31,24 @@ class LoginComponent extends Component {
 
     axios
       .post("/api/users/login", user)
-      .then(res => console(res.data))
-      .catch(err => console.log(err.response.data));
+      .then(res => console.log(res.data))
+      .catch(err => {
+        console.log(err.response.data);
+        this.setState({ errors: err.response.data });
+      });
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <div>
         <p>LoginComponent.js</p>
         <h3>Nazwa użytkownika:</h3>
-        <input type="text" placeholder="Enter your Login" defaultValue={this.state.userName} onChange={this.handleChangeUserName} />
+        <input className={classnames("form-control", { "is-invalid": errors.userName })} type="text" placeholder="Enter your Login" defaultValue={this.state.userName} onChange={this.handleChangeUserName} />
+        <div className="invalid-feedback">{this.state.errors.userName} </div>
         <h3>Hasło:</h3>
-        <input type="password" placeholder="Enter your Password" defaultValue={this.state.password} onChange={this.handleChangePassword} />
+        <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Enter your Password" defaultValue={this.state.password} onChange={this.handleChangePassword} />
+        <div className="invalid-feedback">{this.state.errors.password} </div>
         <div>
           <button onClick={this.onSignIn} className="btn btn-primary">
             Zaloguj się
