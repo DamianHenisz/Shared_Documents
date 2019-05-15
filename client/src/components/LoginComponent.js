@@ -31,7 +31,10 @@ class LoginComponent extends Component {
 
     axios
       .post("/api/users/login", user)
-      .then(res => console.log(res.data))
+      .then(res => {
+        console.log(res.data);
+        this.setState({ errors: {} });
+      })
       .catch(err => {
         console.log(err.response.data);
         this.setState({ errors: err.response.data });
