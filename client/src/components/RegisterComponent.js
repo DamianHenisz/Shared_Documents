@@ -8,7 +8,8 @@ class RegisterComponent extends Component {
     this.state = {
       userName: "",
       password: "",
-      errors: {}
+      errors: {},
+      isLoader: false
     };
 
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
@@ -29,15 +30,17 @@ class RegisterComponent extends Component {
       password: this.state.password
     };
     console.log(newUser);
+    this.setState({ isLoader: true });
+
     axios
       .post("/api/users/register", newUser)
       .then(res => {
         console.log(res.data);
-        this.setState({ errors: {} });
+        this.setState({ errors: {}, isLoader: false });
       })
       .catch(err => {
         console.log(err.response.data);
-        this.setState({ errors: err.response.data });
+        this.setState({ errors: err.response.data, isLoader: false });
       });
   }
   render() {
@@ -53,7 +56,8 @@ class RegisterComponent extends Component {
         <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Enter your Password" defaultValue={this.state.password} onChange={this.handleChangePassword} />
         {errors.password && <div className="invalid-feedback">{errors.password} </div>}
         <div>
-          <button onClick={this.onSignUp} className="btn btn-primary">
+          <button className="btn btn-primary" onClick={this.onSignUp}>
+            {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />}
             Zarejestruj Się
           </button>
         </div>

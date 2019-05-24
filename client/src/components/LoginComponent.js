@@ -8,7 +8,8 @@ class LoginComponent extends Component {
     this.state = {
       userName: "",
       password: "",
-      errors: {}
+      errors: {},
+      isLoader: false
     };
 
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
@@ -28,16 +29,16 @@ class LoginComponent extends Component {
       password: this.state.password
     };
     console.log(user);
-
+    this.setState({ isLoader: true });
     axios
       .post("/api/users/login", user)
       .then(res => {
         console.log(res.data);
-        this.setState({ errors: {} });
+        this.setState({ errors: {}, isLoader: false });
       })
       .catch(err => {
         console.log(err.response.data);
-        this.setState({ errors: err.response.data });
+        this.setState({ errors: err.response.data, isLoader: false });
       });
   }
 
@@ -53,7 +54,8 @@ class LoginComponent extends Component {
         <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Enter your Password" defaultValue={this.state.password} onChange={this.handleChangePassword} />
         <div className="invalid-feedback">{this.state.errors.password} </div>
         <div>
-          <button onClick={this.onSignIn} className="btn btn-primary">
+          <button className="btn btn-primary" onClick={this.onSignIn}>
+            {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />}
             Zaloguj się
           </button>
         </div>
