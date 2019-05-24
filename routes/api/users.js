@@ -7,6 +7,9 @@ const passport = require("passport");
 const User = require("../../models/User");
 const key = require("../../config/key");
 
+const validateRegisterInput = require("../../validation/register");
+const validaeLoginInput = require("../../validation/login");
+
 //@route Get api/users/
 //@desc Test users route
 //@access Public
@@ -15,10 +18,17 @@ router.get("/", (req, res) => res.json({ msg: "Users Works" }));
 //@route Post api/users/register
 //@desc Register user
 //@access Public
-router.post("/reqister", (req, res) => {
+router.post("/register", (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   User.findOne({ userName: req.body.userName }).then(user => {
     if (user) {
-      return res.status(400).json({ userName: "This userName already exists" });
+      errors.userName = "Podany użytkownik już istnieje";
+      return res.status(400).json(errors);
     } else {
       const newUser = new User({
         userName: req.body.userName,
@@ -43,13 +53,20 @@ router.post("/reqister", (req, res) => {
 //@desc Login User / Returning JWT Token
 //@access Public
 router.post("/login", (req, res) => {
+  const { errors, isValid } = validaeLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const userName = req.body.userName;
   const password = req.body.password;
 
   //Find User in MongoDB
   User.findOne({ userName }).then(user => {
     if (!user) {
-      return res.status(404).json({ userName: "User not found" });
+      errors.userName = "Nie znaleziono takiego użytkownika";
+      return res.status(404).json(errors);
     }
 
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -64,7 +81,8 @@ router.post("/login", (req, res) => {
           });
         });
       } else {
-        return res.status(400).json({ password: "Password is incorect" });
+        errors.password = "Podane hasło jest nie poprawne";
+        return res.status(400).json(errors);
       }
     });
   });
