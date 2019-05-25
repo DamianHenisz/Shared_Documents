@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import axios from "axios";
 import classnames from "classnames";
-import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { registerUser } from "../actions/authActions";
 import PropTypes from "prop-types";
@@ -22,6 +21,11 @@ class RegisterComponent extends Component {
     this.onSignUp = this.onSignUp.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
   handleChangeUserName(event) {
     this.setState({ userName: event.target.value });
   }
@@ -35,31 +39,17 @@ class RegisterComponent extends Component {
       password: this.state.password
     };
     console.log(newUser);
-    // this.setState({ isLoader: true });
+    this.setState({ isLoader: true });
 
-    this.props.registerUser(newUser);
-    // axios
-    //   .post("/api/users/register", newUser)
-    //   .then(res => {
-    //     console.log(res.data);
-    //     this.setState({ errors: {}, isLoader: false, nextRoute: true });
-    //   })
-    //   .catch(err => {
-    //     console.log(err.response.data);
-    //     this.setState({ errors: err.response.data, isLoader: false });
-    //   });
+    this.props.registerUser(newUser, this.props.history);
+    this.setState({ isLoader: false });
   }
   render() {
     const errors = this.state.errors;
 
-    const user = this.props.auth.user;
-    // if (this.state.nextRoute) {
-    //   return <Redirect from="/register" to="/document" />;
-    // }
     return (
       <div>
         <p>RegisterComponent.js</p>
-        <p>{user ? user.userName : null}</p>
         <h3>Nazwa użytkownika:</h3>
         <input className={classnames("form-control", { "is-invalid": errors.userName })} type="text" placeholder="Enter your Login" defaultValue={this.state.userName} onChange={this.handleChangeUserName} />
         {errors.userName && <div className="invalid-feedback">{errors.userName} </div>}
@@ -79,14 +69,16 @@ class RegisterComponent extends Component {
 
 RegisterComponent.propTypes = {
   registerUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
   { registerUser }
-)(RegisterComponent);
+)(withRouter(RegisterComponent));
