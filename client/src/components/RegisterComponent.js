@@ -12,15 +12,16 @@ class RegisterComponent extends Component {
       userName: "",
       password: "",
       errors: {},
-      isLoader: false,
-      nextRoute: false
+      isLoader: false
     };
 
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
   }
-
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) this.props.history.push("/");
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -39,10 +40,10 @@ class RegisterComponent extends Component {
       password: this.state.password
     };
     console.log(newUser);
-    this.setState({ isLoader: true });
+    //  this.setState({ isLoader: true });
 
     this.props.registerUser(newUser, this.props.history);
-    this.setState({ isLoader: false });
+    //   this.setState({ isLoader: false });
   }
   render() {
     const errors = this.state.errors;

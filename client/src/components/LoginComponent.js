@@ -19,7 +19,9 @@ class LoginComponent extends Component {
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
   }
-
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) this.props.history.push("/");
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
