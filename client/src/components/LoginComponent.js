@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
 import classnames from "classnames";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../actions/authActions";
 
 class LoginComponent extends Component {
   constructor() {
@@ -17,12 +20,20 @@ class LoginComponent extends Component {
     this.onSignIn = this.onSignIn.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   handleChangeUserName(event) {
     this.setState({ userName: event.target.value });
   }
+
   handleChangePassword(event) {
     this.setState({ password: event.target.value });
   }
+
   onSignIn() {
     const user = {
       userName: this.state.userName,
@@ -30,20 +41,12 @@ class LoginComponent extends Component {
     };
     console.log(user);
     this.setState({ isLoader: true });
-    axios
-      .post("/api/users/login", user)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ errors: {}, isLoader: false });
-      })
-      .catch(err => {
-        console.log(err.response.data);
-        this.setState({ errors: err.response.data, isLoader: false });
-      });
+    this.props.loginUser(user, this.props.history);
   }
 
   render() {
     const { errors } = this.state;
+
     return (
       <div>
         <p>LoginComponent.js</p>
@@ -64,4 +67,17 @@ class LoginComponent extends Component {
   }
 }
 
-export default LoginComponent;
+LoginComponent.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(withRouter(LoginComponent));
