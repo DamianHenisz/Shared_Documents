@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class WelcomeComponent extends Component {
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) this.props.history.push("/test");
+  }
   render() {
     return (
       <div>
@@ -17,4 +22,11 @@ class WelcomeComponent extends Component {
   }
 }
 
-export default WelcomeComponent;
+WelcomeComponent.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+export default connect(mapStateToProps)(WelcomeComponent);
