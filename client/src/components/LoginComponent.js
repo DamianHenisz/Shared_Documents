@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
 import classnames from "classnames";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../actions/authActions";
 
 class LoginComponent extends Component {
   constructor() {
@@ -8,41 +11,44 @@ class LoginComponent extends Component {
     this.state = {
       userName: "",
       password: "",
-      errors: {}
+      errors: {},
+      isLoader: false
     };
 
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
   }
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) this.props.history.push("/");
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
 
   handleChangeUserName(event) {
     this.setState({ userName: event.target.value });
   }
+
   handleChangePassword(event) {
     this.setState({ password: event.target.value });
   }
+
   onSignIn() {
     const user = {
       userName: this.state.userName,
       password: this.state.password
     };
     console.log(user);
-
-    axios
-      .post("/api/users/login", user)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ errors: {} });
-      })
-      .catch(err => {
-        console.log(err.response.data);
-        this.setState({ errors: err.response.data });
-      });
+    this.setState({ isLoader: true });
+    this.props.loginUser(user, this.props.history);
   }
 
   render() {
     const { errors } = this.state;
+
     return (
       <div>
         <p>LoginComponent.js</p>
@@ -53,7 +59,8 @@ class LoginComponent extends Component {
         <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Enter your Password" defaultValue={this.state.password} onChange={this.handleChangePassword} />
         <div className="invalid-feedback">{this.state.errors.password} </div>
         <div>
-          <button onClick={this.onSignIn} className="btn btn-primary">
+          <button className="btn btn-primary" onClick={this.onSignIn}>
+            {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />}
             Zaloguj się
           </button>
         </div>
@@ -62,4 +69,17 @@ class LoginComponent extends Component {
   }
 }
 
-export default LoginComponent;
+LoginComponent.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(withRouter(LoginComponent));

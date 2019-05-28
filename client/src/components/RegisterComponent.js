@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
 import classnames from "classnames";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { registerUser } from "../actions/authActions";
+import PropTypes from "prop-types";
 
 class RegisterComponent extends Component {
   constructor() {
@@ -8,14 +11,22 @@ class RegisterComponent extends Component {
     this.state = {
       userName: "",
       password: "",
-      errors: {}
+      errors: {},
+      isLoader: false
     };
 
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
   }
-
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) this.props.history.push("/");
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
   handleChangeUserName(event) {
     this.setState({ userName: event.target.value });
   }
@@ -29,16 +40,10 @@ class RegisterComponent extends Component {
       password: this.state.password
     };
     console.log(newUser);
-    axios
-      .post("/api/users/register", newUser)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ errors: {} });
-      })
-      .catch(err => {
-        console.log(err.response.data);
-        this.setState({ errors: err.response.data });
-      });
+    //  this.setState({ isLoader: true });
+
+    this.props.registerUser(newUser, this.props.history);
+    //   this.setState({ isLoader: false });
   }
   render() {
     const errors = this.state.errors;
@@ -53,7 +58,8 @@ class RegisterComponent extends Component {
         <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Enter your Password" defaultValue={this.state.password} onChange={this.handleChangePassword} />
         {errors.password && <div className="invalid-feedback">{errors.password} </div>}
         <div>
-          <button onClick={this.onSignUp} className="btn btn-primary">
+          <button className="btn btn-primary" onClick={this.onSignUp}>
+            {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />}
             Zarejestruj Się
           </button>
         </div>
@@ -62,4 +68,18 @@ class RegisterComponent extends Component {
   }
 }
 
-export default RegisterComponent;
+RegisterComponent.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(RegisterComponent));
