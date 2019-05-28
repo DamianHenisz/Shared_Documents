@@ -8,7 +8,7 @@ import DocumentComponent from "./components/DocumentComponent";
 import test from "./components/test";
 
 import { Provider } from "react-redux";
-import store from "./store/store";
+import store from "./store/configureStore";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
