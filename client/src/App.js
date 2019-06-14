@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import WelcomeComponent from "./components/WelcomeComponent";
 import LoginComponent from "./components/LoginComponent";
 import RegisterComponent from "./components/RegisterComponent";
-import DocumentComponent from "./components/DocumentComponent";
+import DocumentComponent from "./components/document/DocumentPageComponent";
 
 import test from "./components/test";
 
