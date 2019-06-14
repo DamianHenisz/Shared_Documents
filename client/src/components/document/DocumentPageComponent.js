@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../styles/App.scss";
-import "../../styles/DocumentListStyles.scss";
+import "../../styles/DocumentStyles.scss";
 import socketIOClient from "socket.io-client";
 
 import AddDocumentComponent from "./AddDocumentComponent";

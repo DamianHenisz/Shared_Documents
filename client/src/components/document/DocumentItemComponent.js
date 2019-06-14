@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../../styles/DocumentListStyles.scss";
+import "../../styles/DocumentStyles.scss";
 class DocumentComponent extends Component {
   constructor() {
     super();

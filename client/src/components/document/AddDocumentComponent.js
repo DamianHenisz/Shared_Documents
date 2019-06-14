@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../../styles/DocumentListStyles.scss";
+
 //Example Controlled Component
 class AddDocumentComponent extends Component {
   constructor() {
@@ -16,13 +16,13 @@ class AddDocumentComponent extends Component {
   }
 
   onAddDocument() {
-    if (this.state.nameDocument.length == 0) return;
+    if (this.state.nameDocument.length === 0) return;
     const newDoc = {
       nameDocument: this.state.nameDocument,
       content: ""
     };
-    this.setState({ test: this.state.nameDocument, nameDocument: "" });
     this.props.documents.push(newDoc);
+    this.setState({ nameDocument: "" });
     console.log("list", this.props.documents);
   }
 
