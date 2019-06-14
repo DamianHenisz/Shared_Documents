@@ -1,9 +1,12 @@
 # Shared-Documents
 
-Getting started
+#### Getting started
 
+Run MongoDB
+```
 $ yarn install
 $ cd client
 $ yarn install
 $ cd ..
 $ yarn dev
+```
