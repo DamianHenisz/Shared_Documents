@@ -18,8 +18,7 @@ class AddDocumentComponent extends Component {
   onAddDocument() {
     if (this.state.nameDocument.length === 0) return;
     const newDoc = {
-      nameDocument: this.state.nameDocument,
-      content: ""
+      nameDocument: this.state.nameDocument
     };
     this.props.documents.push(newDoc);
     this.setState({ nameDocument: "" });
