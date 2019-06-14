@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { setCurrentUser } from "../actions/authActions";
 
-import LoginButton from "./LogoutButtonComponent";
+import LogoutButton from "./LogoutButtonComponent";
 
 class test extends Component {
   constructor() {
@@ -26,7 +26,7 @@ class test extends Component {
             <i className="far fa-user" />
             {user.userName}
           </h3>
-          <LoginButton />
+          <LogoutButton />
         </p>
         <p>Test Login OK</p>
         <p>{this.state.token}</p>
