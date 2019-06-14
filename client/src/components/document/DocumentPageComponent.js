@@ -11,8 +11,8 @@ class DocumentPageComponent extends Component {
     super();
     this.state = {
       documents: [],
-      textDocument: " "
-      //   socket: socketIOClient("localhost:8080/")
+      textDocument: "",
+      socket: socketIOClient("localhost:8080/")
     };
     this.handleChange = this.handleChange.bind(this);
 
@@ -20,8 +20,8 @@ class DocumentPageComponent extends Component {
   }
 
   componentWillMount() {
-    // this.registerGetDataEvent();
-    // this.registerUpdateDataEvent();
+    this.registerGetDataEvent();
+    this.registerUpdateDataEvent();
   }
   componentDidMount() {}
 
@@ -29,36 +29,32 @@ class DocumentPageComponent extends Component {
     this.setState({ textDocument: event.target.value });
   }
 
-  // registerUpdateDataEvent = () => {
-  //   setInterval(() => {
-  //     console.log(this.state.textDocument);
-  //     this.state.socket.emit("update-document", this.state.textDocument);
-  //   }, 100);
-  // };
+  registerUpdateDataEvent = () => {
+    setInterval(() => {
+      console.log(this.state.textDocument);
+      this.state.socket.emit("update-document", this.state.textDocument);
+    }, 100);
+  };
 
-  // registerGetDataEvent = () => {
-  //   this.state.socket.on("get-document", document => {
-  //     this.setState({
-  //       textDocument: document
-  //     });
-  //   });
-  // };
-
-  // // async exchangeSockets() {
-  // //   this.state.socket.on("document", function(document) {
-  // //     console.log("exchangeSockets", document);
-  // //     // this.setState({ textDocument: document });
-  // //   });
-  // //   this.state.socket.emit("document", this.state.textDocument);
-  // //   console.log("save", this.state.textDocument);
-  // //   // setTimeout(this.exchangeSockets, 1000);
-  // // }
+  registerGetDataEvent = () => {
+    this.state.socket.on("get-document", document => {
+      this.setState({
+        textDocument: document
+      });
+    });
+  };
 
   downloadDocument() {
     //TODO: save file
   }
 
   render() {
+    let disabledTextArea = true;
+    let textplaceHolder = "Aby zacząć pisać, dodaj dokument...";
+    if (this.state.documents.length != 0) {
+      disabledTexArea = false;
+      textplaceHolder = "Zacznij pisać...";
+    }
     return (
       <div className="App">
         <header className="App-header">
@@ -66,7 +62,7 @@ class DocumentPageComponent extends Component {
           <div className="sidenav">
             <DocumentListComponent documents={this.state.documents} />
           </div>
-          <textarea className="Document" value={this.state.textDocument} onChange={this.handleChange} />
+          <textarea className="Document" placeholder={textplaceHolder} disabled={disabledTextArea} value={this.state.textDocument} onChange={this.handleChange} />
           <button onClick={this.downloadDocument}>Save </button>
         </header>
       </div>
