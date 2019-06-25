@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import socketIOClient from "socket.io-client";
+
 //Example Controlled Component
 class AddDocumentComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      nameDocument: "",
-      socket: socketIOClient("localhost:8080/")
+      nameDocument: ""
     };
     this.handleChangeNameDocument = this.handleChangeNameDocument.bind(this);
     this.onAddDocument = this.onAddDocument.bind(this);
@@ -22,10 +21,8 @@ class AddDocumentComponent extends Component {
       nameDocument: this.state.nameDocument,
       content: ""
     };
-    this.state.socket.emit("addDocument", newDoc);
-    this.props.documents.push(newDoc);
+    this.props.socket.emit("add-Document", newDoc);
     this.setState({ nameDocument: "" });
-    console.log("list", this.props.documents);
   }
 
   render() {
