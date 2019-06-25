@@ -11,6 +11,7 @@ class DocumentPageComponent extends Component {
     super();
     this.state = {
       documents: [],
+      docsName: "",
       textDocument: "",
       socket: socketIOClient("localhost:8080/")
     };
@@ -21,7 +22,11 @@ class DocumentPageComponent extends Component {
     this.registerGetDataEvent();
     this.registerUpdateDataEvent();
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.state.socket.on("list-documents", docs => {
+      this.setState({ documents: docs });
+    });
+  }
 
   handleChange(event) {
     this.setState({ textDocument: event.target.value });
