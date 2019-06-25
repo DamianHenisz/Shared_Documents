@@ -57,6 +57,17 @@ io.on("connection", socket => {
     socket.emit("get-document", documents[documentName]);
   });
 
+  socket.on("add-Document", newDocument => {
+    documents[newDocument.nameDocument] = newDocument;
+    safeJoin(newDocument.nameDocument);
+    io.emit("documents", Object.keys(documents));
+    console.log("Object.keys(documents)", Object.keys(documents));
+    socket.emit("document", newDocument);
+    console.log("value", documents);
+  });
+
+  socket.emit("fetch doc"), doc => {};
+
   socket.on("update-document", document => {
     //datadocument = document;
     io.sockets.emit("get-document1", document);
