@@ -12,8 +12,8 @@ const server = http.createServer(app);
 
 const io = socketIo(server);
 const connections = [];
-
-let datadocument = ""; //Global variable for all users
+const documents = {};
+let previousId;
 
 //Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,7 +25,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB..."))
   .catch(err => console.log(err));
 
-app.get("/", function(req, res, next) {
+app.get("/", (req, res, next) => {
   res.sendFile(__dirname + "/client/public/index.html");
 });
 
@@ -40,19 +40,31 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 
 //Use socketIO
-io.on("connection", function(socket) {
-  socket.emit("get-document", datadocument);
+io.on("connection", socket => {
+  io.emit("documents", Object.keys(documents));
   connections.push(socket);
   console.log("websocket connected ", socket.id);
 
-  socket.on("update-document", document => {
-    datadocument = document;
-    io.sockets.emit("get-document", datadocument);
+  const safeJoin = currentId => {
+    socket.leave(previousId);
+    socket.join(currentId, () => console.log(`Socket ${socket.id} joined room ${currentId}`));
+    previousId = currentId;
+  };
+
+  socket.on("get-document", documentName => {
+    console.log("emit-get-doc", documentName);
+    safeJoin(documentName);
+    socket.emit("get-document", documents[documentName]);
   });
 
-  socket.on("disconnect", function() {
+  socket.on("update-document", document => {
+    //datadocument = document;
+    io.sockets.emit("get-document1", document);
+  });
+
+  socket.on("disconnect", () => {
     connections.splice(connections.indexOf(socket), 1);
-    console.log("datadocument server", datadocument);
+    console.log("websocket disconnected ", socket.id);
   });
 });
 
@@ -64,6 +76,6 @@ io.on("connection", function(socket) {
 //   //file written successfully
 // });
 
-server.listen(8080, function() {
+server.listen(8080, () => {
   console.log("Listening on: 8080 port");
 });
