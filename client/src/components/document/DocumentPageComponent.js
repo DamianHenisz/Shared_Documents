@@ -15,8 +15,6 @@ class DocumentPageComponent extends Component {
       socket: socketIOClient("localhost:8080/")
     };
     this.handleChange = this.handleChange.bind(this);
-
-    //  this.exchangeSockets = this.exchangeSockets.bind(this);
   }
 
   componentWillMount() {
@@ -31,15 +29,15 @@ class DocumentPageComponent extends Component {
 
   registerUpdateDataEvent = () => {
     setInterval(() => {
-      console.log(this.state.textDocument);
-      this.state.socket.emit("update-document", this.state.textDocument);
+      console.log("registerUpdateDataEvent", this.state.docsName, this.state.textDocument);
+      this.state.socket.emit("update-document", this.state.docsName, this.state.textDocument);
     }, 100);
   };
 
   registerGetDataEvent = () => {
-    this.state.socket.on("get-document", document => {
+    this.state.socket.on("document-content", docContent => {
       this.setState({
-        textDocument: document
+        textDocument: docContent
       });
     });
   };
@@ -51,16 +49,16 @@ class DocumentPageComponent extends Component {
   render() {
     let disabledTextArea = true;
     let textplaceHolder = "Aby zacząć pisać, dodaj dokument...";
-    if (this.state.documents.length != 0) {
+    if (this.state.documents.length !== 0) {
       disabledTextArea = false;
       textplaceHolder = "Zacznij pisać...";
     }
     return (
       <div className="App">
         <header className="App-header">
-          <AddDocumentComponent documents={this.state.documents} />
+          <AddDocumentComponent socket={this.state.socket} />
           <div className="sidenav">
-            <DocumentListComponent documents={this.state.documents} />
+            <DocumentListComponent documents={this.state.documents} socket={this.state.socket} />
           </div>
           <textarea className="Document" placeholder={textplaceHolder} disabled={disabledTextArea} value={this.state.textDocument} onChange={this.handleChange} />
           <button onClick={this.downloadDocument}>Save </button>
