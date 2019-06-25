@@ -54,6 +54,7 @@ io.on("connection", socket => {
   //get-document it works only on the name, not on work object documents
   socket.on("get-document", documentName => {
     changeRooms(documentName);
+    //TODO: fix the switching of documents
     socket.emit("switch-document", documents[documentName]);
     console.log("switch-document", documents[documentName]);
   });
@@ -62,15 +63,18 @@ io.on("connection", socket => {
     documents[newDocument.nameDocument] = newDocument;
     changeRooms(newDocument.nameDocument);
     io.emit("list-documents", Object.keys(documents));
-    console.log("Object.keys(documents)", Object.keys(documents));
 
     socket.emit("switch-document", newDocument);
     console.log("switch-document", newDocument);
   });
 
   socket.on("update-document", (docName, content) => {
-    //BUG:At the beginning when creating the underfined and all context save to underfield
-    documents[docName.content] = content;
+    for (var i in documents) {
+      if (Object.keys(documents) == docName) {
+        documents[i].content = content;
+      }
+    }
+
     socket.to(docName).emit("document-content", content);
     console.log("value", documents);
   });
