@@ -21,7 +21,7 @@ class AddDocumentComponent extends Component {
       nameDocument: this.state.nameDocument,
       content: ""
     };
-    this.props.socket.emit("add-Document", newDoc);
+    this.props.socket.emit("add-document", newDoc);
     this.setState({ nameDocument: "" });
   }
 
