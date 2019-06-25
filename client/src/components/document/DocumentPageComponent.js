@@ -25,6 +25,10 @@ class DocumentPageComponent extends Component {
   componentDidMount() {
     this.state.socket.on("list-documents", docs => {
       this.setState({ documents: docs });
+
+      this.state.socket.on("switch-document", document => {
+        this.setState({ docsName: document.nameDocument, textDocument: document.content });
+      });
     });
   }
 
