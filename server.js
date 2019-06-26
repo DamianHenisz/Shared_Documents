@@ -54,7 +54,6 @@ io.on("connection", socket => {
   //get-document it works only on the name, not on work object documents
   socket.on("get-document", documentName => {
     changeRooms(documentName);
-    //TODO: fix the switching of documents
     socket.emit("switch-document", documents[documentName]);
     console.log("switch-document", documents[documentName]);
   });
@@ -69,14 +68,11 @@ io.on("connection", socket => {
   });
 
   socket.on("update-document", (docName, content) => {
-    for (var i in documents) {
-      if (Object.keys(documents) == docName) {
-        documents[i].content = content;
-      }
+    if (documents[docName]) {
+      documents[docName].content = content;
     }
-
     socket.to(docName).emit("document-content", content);
-    console.log("value", documents);
+    console.log("documents", documents);
   });
 
   socket.on("disconnect", () => {
