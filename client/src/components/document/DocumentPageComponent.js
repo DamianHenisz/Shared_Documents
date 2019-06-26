@@ -57,8 +57,9 @@ class DocumentPageComponent extends Component {
 
   render() {
     let disabledTextArea = true;
-    let textplaceHolder = "Aby zacząć pisać, dodaj dokument...";
-    if (this.state.documents.length !== 0) {
+    let textplaceHolder = "Aby zacząć pisać, dodaj dokument lub wybierz istniejący dokument z listy...";
+
+    if (this.state.documents.length !== 0 && this.state.docsName.length >= 1) {
       disabledTextArea = false;
       textplaceHolder = "Zacznij pisać...";
     }
