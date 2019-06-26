@@ -72,7 +72,6 @@ io.on("connection", socket => {
       documents[docName].content = content;
     }
     socket.to(docName).emit("document-content", content);
-    console.log("documents", documents);
   });
 
   socket.on("disconnect", () => {
