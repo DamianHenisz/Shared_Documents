@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import "../../styles/DocumentStyles.scss";
-class DocumentComponent extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
 
+class DocumentComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.changeEditedDocument = this.changeEditedDocument.bind(this);
+  }
+  changeEditedDocument() {
+    this.props.socket.emit("get-document", this.props.docName);
+  }
   render() {
-    const { nameDocument } = this.props.doc;
-    return <span>{nameDocument}</span>;
+    return <span onClick={this.changeEditedDocument}>{this.props.docName}</span>;
   }
 }
 

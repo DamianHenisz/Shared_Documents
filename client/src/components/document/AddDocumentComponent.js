@@ -2,8 +2,8 @@ import React, { Component } from "react";
 
 //Example Controlled Component
 class AddDocumentComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       nameDocument: ""
     };
@@ -18,11 +18,11 @@ class AddDocumentComponent extends Component {
   onAddDocument() {
     if (this.state.nameDocument.length === 0) return;
     const newDoc = {
-      nameDocument: this.state.nameDocument
+      nameDocument: this.state.nameDocument,
+      content: ""
     };
-    this.props.documents.push(newDoc);
+    this.props.socket.emit("add-document", newDoc);
     this.setState({ nameDocument: "" });
-    console.log("list", this.props.documents);
   }
 
   render() {

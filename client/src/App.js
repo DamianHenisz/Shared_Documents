@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import WelcomeComponent from "./components/WelcomeComponent";
 import LoginComponent from "./components/LoginComponent";
 import RegisterComponent from "./components/RegisterComponent";
-import DocumentComponent from "./components/document/DocumentPageComponent";
+import DocumentsPageComponent from "./components/document/DocumentPageComponent";
 
 import test from "./components/test";
 
@@ -34,11 +34,11 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Route exact path="/" component={WelcomeComponent} />
+          <Route exact path="/" component={DocumentsPageComponent} />
           <Route exact path="/register" component={RegisterComponent} />
           <Route exact path="/login" component={LoginComponent} />
           <Route exact path="/test" component={test} />
-          <Route exact path="/document" component={DocumentComponent} />
+          <Route exact path="/documents" component={DocumentsPageComponent} />
         </Router>
       </Provider>
     );

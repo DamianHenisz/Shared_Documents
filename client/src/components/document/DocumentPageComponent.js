@@ -11,62 +11,66 @@ class DocumentPageComponent extends Component {
     super();
     this.state = {
       documents: [],
-      textDocument: " "
-      //   socket: socketIOClient("localhost:8080/")
+      docsName: "",
+      textDocument: "",
+      socket: socketIOClient("localhost:8080/")
     };
     this.handleChange = this.handleChange.bind(this);
-
-    //  this.exchangeSockets = this.exchangeSockets.bind(this);
   }
 
   componentWillMount() {
-    // this.registerGetDataEvent();
-    // this.registerUpdateDataEvent();
+    this.registerGetDataEvent();
+    this.registerUpdateDataEvent();
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.state.socket.on("list-documents", docs => {
+      this.setState({ documents: docs });
+
+      this.state.socket.on("switch-document", document => {
+        this.setState({ docsName: document.nameDocument, textDocument: document.content });
+      });
+    });
+  }
 
   handleChange(event) {
     this.setState({ textDocument: event.target.value });
   }
 
-  // registerUpdateDataEvent = () => {
-  //   setInterval(() => {
-  //     console.log(this.state.textDocument);
-  //     this.state.socket.emit("update-document", this.state.textDocument);
-  //   }, 100);
-  // };
+  registerUpdateDataEvent = () => {
+    setInterval(() => {
+      console.log("registerUpdateDataEvent", this.state.docsName, this.state.textDocument);
+      this.state.socket.emit("update-document", this.state.docsName, this.state.textDocument);
+    }, 100);
+  };
 
-  // registerGetDataEvent = () => {
-  //   this.state.socket.on("get-document", document => {
-  //     this.setState({
-  //       textDocument: document
-  //     });
-  //   });
-  // };
-
-  // // async exchangeSockets() {
-  // //   this.state.socket.on("document", function(document) {
-  // //     console.log("exchangeSockets", document);
-  // //     // this.setState({ textDocument: document });
-  // //   });
-  // //   this.state.socket.emit("document", this.state.textDocument);
-  // //   console.log("save", this.state.textDocument);
-  // //   // setTimeout(this.exchangeSockets, 1000);
-  // // }
+  registerGetDataEvent = () => {
+    this.state.socket.on("document-content", docContent => {
+      this.setState({
+        textDocument: docContent
+      });
+    });
+  };
 
   downloadDocument() {
     //TODO: save file
   }
 
   render() {
+    let disabledTextArea = true;
+    let textplaceHolder = "Aby zacząć pisać, dodaj dokument lub wybierz istniejący dokument z listy...";
+
+    if (this.state.documents.length !== 0 && this.state.docsName.length >= 1) {
+      disabledTextArea = false;
+      textplaceHolder = "Zacznij pisać...";
+    }
     return (
       <div className="App">
         <header className="App-header">
-          <AddDocumentComponent documents={this.state.documents} />
+          <AddDocumentComponent socket={this.state.socket} />
           <div className="sidenav">
-            <DocumentListComponent documents={this.state.documents} />
+            <DocumentListComponent documents={this.state.documents} socket={this.state.socket} />
           </div>
-          <textarea className="Document" value={this.state.textDocument} onChange={this.handleChange} />
+          <textarea className="Document" placeholder={textplaceHolder} disabled={disabledTextArea} value={this.state.textDocument} onChange={this.handleChange} />
           <button onClick={this.downloadDocument}>Save </button>
         </header>
       </div>
