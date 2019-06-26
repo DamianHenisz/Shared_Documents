@@ -20,10 +20,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Connect to MongoDB
-// mongoose
-//   .connect("mongodb://localhost:27017/sharedDocuments", { useNewUrlParser: true, useCreateIndex: true })
-//   .then(() => console.log("Connected to MongoDB..."))
-//   .catch(err => console.log(err));
+mongoose
+  .connect("mongodb://localhost:27017/sharedDocuments", { useNewUrlParser: true, useCreateIndex: true })
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch(err => console.log(err));
 
 app.get("/", (req, res, next) => {
   res.sendFile(__dirname + "/client/public/index.html");
