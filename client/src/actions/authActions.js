@@ -34,7 +34,7 @@ export const loginUser = (userData, history) => dispatch => {
       const decodedToken = jwt_decode(token);
       //Set current user
       dispatch(setCurrentUser(decodedToken));
-      history.push("test");
+      history.push("documents");
     })
     .catch(err => {
       dispatch({

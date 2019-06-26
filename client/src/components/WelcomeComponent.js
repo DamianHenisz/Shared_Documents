@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 class WelcomeComponent extends Component {
   componentDidMount() {
-    if (this.props.auth.isAuthenticated) this.props.history.push("/test");
+    if (this.props.auth.isAuthenticated) this.props.history.push("/documents");
   }
   render() {
     return (
