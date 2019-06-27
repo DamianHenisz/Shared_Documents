@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../actions/authActions";
 
+import "../styles/LoginRegisterStyles.scss";
 class LoginComponent extends Component {
   constructor() {
     super();
@@ -50,20 +51,22 @@ class LoginComponent extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
-        <p>LoginComponent.js</p>
-        <h3>Nazwa użytkownika:</h3>
-        <input className={classnames("form-control", { "is-invalid": errors.userName })} type="text" placeholder="Enter your Login" defaultValue={this.state.userName} onChange={this.handleChangeUserName} />
-        <div className="invalid-feedback">{this.state.errors.userName} </div>
-        <h3>Hasło:</h3>
-        <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Enter your Password" defaultValue={this.state.password} onChange={this.handleChangePassword} />
-        <div className="invalid-feedback">{this.state.errors.password} </div>
-        <div>
-          <button className="btn btn-primary" onClick={this.onSignIn}>
+      <div className="row">
+        <div className="col-md-4" />
+        <div className="col-md-4 form-user">
+          <h2 className="form-title">Logowanie</h2>
+          <h3 className="title-input">Nazwa użytkownika</h3>
+          <input className={classnames("form-control", { "is-invalid": errors.userName })} type="text" placeholder="Podaj nazwę użytkownika" defaultValue={this.state.userName} onChange={this.handleChangeUserName} />
+          <div className="invalid-feedback text-error">{this.state.errors.userName} </div>
+          <h3 className="title-input">Hasło</h3>
+          <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Podaj hasło" defaultValue={this.state.password} onChange={this.handleChangePassword} />
+          <div className="invalid-feedback text-error">{this.state.errors.password} </div>
+          <button className="btn btn-primary form-button" onClick={this.onSignIn}>
             {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />}
             Zaloguj się
           </button>
         </div>
+        <div className="col-md-4" />
       </div>
     );
   }
