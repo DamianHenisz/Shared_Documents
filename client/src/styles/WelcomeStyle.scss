@@ -1,6 +1,15 @@
-.wraper {
+.wrapper {
   background-color: #d5d9e2;
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+.section-left {
+  font-size: calc(10px + 2vmin);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
