@@ -1,19 +1,6 @@
-.App {
-  text-align: center;
-}
-
-.App-header {
+.wraper {
   background-color: #d5d9e2;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-logo {
-  height: 750px;
-  width: 700px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
