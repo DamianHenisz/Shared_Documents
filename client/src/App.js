@@ -5,8 +5,6 @@ import LoginComponent from "./components/LoginComponent";
 import RegisterComponent from "./components/RegisterComponent";
 import DocumentsPageComponent from "./components/document/DocumentPageComponent";
 
-import test from "./components/test";
-
 import { Provider } from "react-redux";
 import store from "./store/configureStore";
 import { BrowserRouter as Router, Route } from "react-router-dom";
