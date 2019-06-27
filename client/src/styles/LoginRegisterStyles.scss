@@ -5,7 +5,6 @@
   justify-content: center;
   padding-top: 80px;
 }
-
 .form-title {
   margin-bottom: 50px;
   font-size: 130px;
@@ -13,7 +12,6 @@
   font-family: "inherit";
   font-style: bold;
 }
-
 .title-input {
   font-size: 35px;
   padding: 5px;
@@ -21,9 +19,12 @@
   font-family: "inherit";
   font-style: bold;
 }
-
 .form-button {
   font-weight: 700;
   margin: 30px;
   width: 100%;
+}
+.text-error {
+  font-size: 25px;
+  width: auto;
 }
