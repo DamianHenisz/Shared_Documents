@@ -11,19 +11,26 @@ class WelcomeComponent extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <p>WelcomeComponent1.js</p>
-          <Link to="/register">
-            <button className="btn btn-primary">Zarejestruj Się </button>
-          </Link>
-          <Link to="login">
-            <button className="btn btn-primary">Zaloguj Się </button>
-          </Link>
-        </div>
-        <div className="App-header">
-          <p>WelcomeComponent1.js</p>
-          <img src={require("../img/welcome_picture.svg")} className="App-logo" alt="WelcomePicture" />
+      <div className="wrapper">
+        <div className="row">
+          <div className="col-md-6 section-left">
+            <section>
+              <p className="title-text">Shared Document</p>
+              <div className="wrapper-buttons">
+                <Link to="/login">
+                  <button className="btn btn-success button-login"> Zaloguj się </button>
+                </Link>
+                <Link to="/register">
+                  <button className="btn btn-danger button-register">Zarejestruj się</button>
+                </Link>
+              </div>
+            </section>
+          </div>
+          <div className="col-md-6 section-right">
+            <section>
+              <img src={require("../img/welcome_picture.svg")} className="img-fluid img-style" alt="Welcome" />
+            </section>
+          </div>
         </div>
       </div>
     );
