@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { registerUser } from "../actions/authActions";
 import PropTypes from "prop-types";
 
+import "../styles/LoginRegisterStyles.scss";
 class RegisterComponent extends Component {
   constructor() {
     super();
@@ -49,20 +50,23 @@ class RegisterComponent extends Component {
     const errors = this.state.errors;
 
     return (
-      <div>
-        <p>RegisterComponent.js</p>
-        <h3>Nazwa użytkownika:</h3>
-        <input className={classnames("form-control", { "is-invalid": errors.userName })} type="text" placeholder="Enter your Login" defaultValue={this.state.userName} onChange={this.handleChangeUserName} />
-        {errors.userName && <div className="invalid-feedback">{errors.userName} </div>}
-        <h3>Hasło:</h3>
-        <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Enter your Password" defaultValue={this.state.password} onChange={this.handleChangePassword} />
-        {errors.password && <div className="invalid-feedback">{errors.password} </div>}
-        <div>
-          <button className="btn btn-primary" onClick={this.onSignUp}>
+      <div className="row">
+        <div className="col-md-4" />
+        <div className="col-md-4 form-user">
+          <h2 className="form-title">Rejestracja</h2>
+          <h3 className="title-input">Nazwa użytkownika</h3>
+          <input className={classnames("form-control", { "is-invalid": errors.userName })} type="text" placeholder="Podaj nazwę użytkownika" defaultValue={this.state.userName} onChange={this.handleChangeUserName} />
+          {errors.userName && <div className="invalid-feedback text-error">{errors.userName} </div>}
+          <h3 className="title-input">Hasło</h3>
+          <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Podaj hasło" defaultValue={this.state.password} onChange={this.handleChangePassword} />
+          {errors.password && <div className="invalid-feedback text-error">{errors.password} </div>}
+
+          <button className="btn btn-primary  form-button" onClick={this.onSignUp}>
             {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />}
             Zarejestruj Się
           </button>
         </div>
+        <div className="col-md-4" />
       </div>
     );
   }
