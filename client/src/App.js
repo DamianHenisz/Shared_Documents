@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import WelcomeComponent from "./components/WelcomeComponent";
 import LoginComponent from "./components/LoginComponent";
 import RegisterComponent from "./components/RegisterComponent";
-import DocumentsPageComponent from "./components/document/DocumentPageComponent";
+import DocumentPageComponent from "./components/document/DocumentPageComponent";
 
 import { Provider } from "react-redux";
 import store from "./store/configureStore";
@@ -12,7 +12,6 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
 
 import jwt_decode from "jwt-decode";
-import "./styles/App.scss";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -35,7 +34,7 @@ class App extends Component {
           <Route exact path="/" component={WelcomeComponent} />
           <Route exact path="/register" component={RegisterComponent} />
           <Route exact path="/login" component={LoginComponent} />
-          <Route exact path="/documents" component={DocumentsPageComponent} />
+          <Route exact path="/documents" component={DocumentPageComponent} />
         </Router>
       </Provider>
     );
