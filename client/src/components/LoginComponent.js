@@ -42,7 +42,6 @@ class LoginComponent extends Component {
       userName: this.state.userName,
       password: this.state.password
     };
-    console.log(user);
     this.setState({ isLoader: true });
     this.props.loginUser(user, this.props.history);
   }

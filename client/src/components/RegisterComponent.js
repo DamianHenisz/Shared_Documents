@@ -40,12 +40,9 @@ class RegisterComponent extends Component {
       userName: this.state.userName,
       password: this.state.password
     };
-    console.log(newUser);
-    //  this.setState({ isLoader: true });
-
     this.props.registerUser(newUser, this.props.history);
-    //   this.setState({ isLoader: false });
   }
+
   render() {
     const errors = this.state.errors;
 
