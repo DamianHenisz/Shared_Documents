@@ -1,0 +1,43 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.section-left {
+  font-size: calc(10px + 2vmin);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  padding-bottom: 70px;
+}
+
+.title-text {
+  color: black;
+  font-size: 125px;
+  font-weight: 500;
+  font-style: bold;
+  font-family: "Brush Script MT";
+  margin-top: -40px;
+  padding-left: 10px;
+  padding-bottom: 50px;
+}
+
+.wrapper-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.button-login {
+  width: 320px;
+  font-weight: 700;
+}
+
+.button-register {
+  margin: 10px;
+  width: 320px;
+  font-weight: 700;
+}
