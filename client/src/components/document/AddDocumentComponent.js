@@ -28,12 +28,10 @@ class AddDocumentComponent extends Component {
   render() {
     return (
       <div>
-        <p>
-          <input type="text" placeholder="Dodaj Dokument..." value={this.state.nameDocument} onChange={this.handleChangeNameDocument} />
-          <button className="btn btn-success" onClick={this.onAddDocument}>
-            Dodaj
-          </button>
-        </p>
+        <input className="form-control" type="text" placeholder="Dodaj Dokument..." value={this.state.nameDocument} onChange={this.handleChangeNameDocument} />
+        <button className="btn btn-success button-addDocs" onClick={this.onAddDocument}>
+          Dodaj
+        </button>
       </div>
     );
   }
