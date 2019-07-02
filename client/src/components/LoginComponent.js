@@ -42,7 +42,6 @@ class LoginComponent extends Component {
       userName: this.state.userName,
       password: this.state.password
     };
-    console.log(user);
     this.setState({ isLoader: true });
     this.props.loginUser(user, this.props.history);
   }
@@ -62,7 +61,7 @@ class LoginComponent extends Component {
           <input className={classnames("form-control", { "is-invalid": errors.password })} type="password" placeholder="Podaj hasło" defaultValue={this.state.password} onChange={this.handleChangePassword} />
           <div className="invalid-feedback text-error">{this.state.errors.password} </div>
           <button className="btn btn-primary form-button" onClick={this.onSignIn}>
-            {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />}
+            {/* {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />} */}
             Zaloguj się
           </button>
         </div>

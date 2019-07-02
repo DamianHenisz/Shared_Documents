@@ -19,8 +19,8 @@ class LogoutButtonComponent extends Component {
   }
   render() {
     return (
-      <button className="btn btn-primary" onClick={this.onLogOut}>
-        {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />}
+      <button className="btn btn-primary button-logout" onClick={this.onLogOut}>
+        {/* {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />} */}
         Wyloguj Się
       </button>
     );

@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setCurrentUser } from "../../actions/authActions";
 
-import "../../styles/App.scss";
-import "../../styles/DocumentStyles.scss";
+import "../../styles/DocumentPageStyles.scss";
 import socketIOClient from "socket.io-client";
 import LogoutButton from "../LogoutButtonComponent";
 import AddDocumentComponent from "./AddDocumentComponent";
@@ -42,7 +41,6 @@ class DocumentPageComponent extends Component {
   handleChange(event) {
     this.setState({ textDocument: event.target.value });
   }
-
   registerUpdateDataEvent = () => {
     setInterval(() => {
       console.log("registerUpdateDataEvent", this.state.docsName, this.state.textDocument);
@@ -63,8 +61,6 @@ class DocumentPageComponent extends Component {
   }
 
   render() {
-    const { user } = this.props.auth;
-
     let disabledTextArea = true;
     let textplaceHolder = "Aby zacząć pisać, dodaj dokument lub wybierz istniejący dokument z listy...";
 
@@ -73,22 +69,18 @@ class DocumentPageComponent extends Component {
       textplaceHolder = "Zacznij pisać...";
     }
     return (
-      <div className="App">
-        <header className="App-header">
-          <AddDocumentComponent socket={this.state.socket} />
-          <div className="sidenav">
-            <DocumentListComponent documents={this.state.documents} socket={this.state.socket} />
-          </div>
-          <textarea className="Document" placeholder={textplaceHolder} disabled={disabledTextArea} value={this.state.textDocument} onChange={this.handleChange} />
-          <button onClick={this.downloadDocument}>Save </button>
-          <p>
-            <h3>
-              <i className="far fa-user" />
-              {user.userName}
-            </h3>
+      <div>
+        <div className="sidenav">
+          <DocumentListComponent documents={this.state.documents} socket={this.state.socket} />
+        </div>
+        <section className="section-document">
+          <div>
+            <AddDocumentComponent socket={this.state.socket} />
             <LogoutButton />
-          </p>
-        </header>
+          </div>
+          <textarea className="textarea-document" placeholder={textplaceHolder} disabled={disabledTextArea} value={this.state.textDocument} onChange={this.handleChange} />
+          {/* <button onClick={this.downloadDocument}>Save </button> */}
+        </section>
       </div>
     );
   }
