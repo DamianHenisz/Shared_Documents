@@ -62,7 +62,7 @@ class RegisterComponent extends Component {
           {errors.password && <div className="invalid-feedback text-error">{errors.password} </div>}
 
           <button className="btn btn-primary  form-button" onClick={this.onSignUp}>
-            {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />}
+            {/* {this.state.isLoader && <i className="fa fa-spinner" aria-hidden="true" />} */}
             Zarejestruj Się
           </button>
         </div>
