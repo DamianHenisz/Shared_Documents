@@ -80,14 +80,6 @@ io.on("connection", socket => {
   });
 });
 
-// fs.writeFile("test.txt", "bla", err => {
-//   if (err) {
-//     console.error(err);
-//     return;
-//   }
-//   //file written successfully
-// });
-
 server.listen(8080, () => {
   console.log("Listening on: 8080 port");
 });
